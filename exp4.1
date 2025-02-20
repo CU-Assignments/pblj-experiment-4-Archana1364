@@ -1,0 +1,82 @@
+import java.util.*;
+
+class Card {
+    private String symbol;
+    private String value;
+
+    public Card(String symbol, String value) {
+        this.symbol = symbol;
+        this.value = value;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value + " of " + symbol;
+    }
+}
+
+class CardCollection {
+    private Collection<Card> cards;
+
+    public CardCollection() {
+        cards = new ArrayList<>();
+    }
+
+    public void addCard(String symbol, String value) {
+        cards.add(new Card(symbol, value));
+    }
+
+    public List<Card> findCardsBySymbol(String symbol) {
+        List<Card> result = new ArrayList<>();
+        for (Card card : cards) {
+            if (card.getSymbol().equalsIgnoreCase(symbol)) {
+                result.add(card);
+            }
+        }
+        return result;
+    }
+
+    public void displayCards() {
+        for (Card card : cards) {
+            System.out.println(card);
+        }
+    }
+}
+
+public class CardCollectorApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CardCollection collection = new CardCollection();
+
+        collection.addCard("Hearts", "Ace");
+        collection.addCard("Spades", "King");
+        collection.addCard("Diamonds", "Queen");
+        collection.addCard("Hearts", "10");
+        collection.addCard("Clubs", "Jack");
+        
+        System.out.println("All cards in the collection:");
+        collection.displayCards();
+
+        System.out.print("\nEnter a symbol to find cards (e.g., Hearts, Spades): ");
+        String symbol = scanner.nextLine();
+        List<Card> foundCards = collection.findCardsBySymbol(symbol);
+
+        if (foundCards.isEmpty()) {
+            System.out.println("No cards found for the symbol " + symbol);
+        } else {
+            System.out.println("Cards with symbol " + symbol + ":");
+            for (Card card : foundCards) {
+                System.out.println(card);
+            }
+        }
+        scanner.close();
+    }
+}
